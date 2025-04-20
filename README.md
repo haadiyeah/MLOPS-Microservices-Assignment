@@ -39,8 +39,8 @@ To run the application locally using Docker Compose:
 
 1. Clone the repository:
 ```bash
-git clone 
-cd 
+git clone https://github.com/haadiyeah/MLOPS-Microservices-Assignment.git
+cd MLOPS-Microservices-Assignment
 ```
 
 2. Start the services:
