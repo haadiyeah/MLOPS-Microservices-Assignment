@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: backend-service:latest
+        imagePullPolicy: Never # For local Minikube use
+        ports:
+        - containerPort: 5001
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: backend-configmap
+              key: MONGO_URI
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: backend-configmap
+              key: PORT
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: auth-secret
+              key: JWT_SECRET
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 15
+          periodSeconds: 20 

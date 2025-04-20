@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-configmap
+data:
+  MONGO_URI: mongodb://mongo-service:27017/auth
+  JWT_EXPIRES_IN: "1d"
+  PORT: "5000"
