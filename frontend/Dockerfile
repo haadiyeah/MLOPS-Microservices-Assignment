@@ -1,6 +1,9 @@
 # Frontend Dockerfile
 FROM node:16-alpine as build
 
+# Add required dependencies for crypto
+RUN apk add --no-cache python3 make g++
+
 WORKDIR /app
 
 # Copy package.json and package-lock.json
@@ -19,7 +22,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the build files from the build stage
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
